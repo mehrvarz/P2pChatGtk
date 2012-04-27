@@ -1,0 +1,2 @@
+cd build && jar cf ../P2pChatForGkt.jar * && cd ..
+

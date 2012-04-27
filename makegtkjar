@@ -1,0 +1,4 @@
+rm P2pChatGtk.jar
+java -jar ~/bin/android-sdk-linux_86-r16/tools/proguard/lib/proguard.jar @P2pChatGtk.pro && jar -ufm P2pChatGtk.jar MANIFEST.MF relaykey.pub && chmod +x P2pChatGtk.jar
+
+
