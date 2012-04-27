@@ -19,13 +19,13 @@ Then you can run P2pChatGtk by starting:
 
     ./run
 
-# A runnable jar file is provided with the source repository. On Ubuntu 12.04 
-# you can start the Gtk application by right clicking and selecting "Open 
-# with OpenJDK Java 6 Runtime" or "Open with OpenJDK Java 7 Runtime".
-# Alternatively you can start this application also from the command line by typing:
-# java -jar P2pChatGtk.jar
-# or just:
-# scala P2pChatGtk.jar
+// A runnable jar file is provided with the source repository. On Ubuntu 12.04 
+// you can start the Gtk application by right clicking and selecting "Open 
+// with OpenJDK Java 6 Runtime" or "Open with OpenJDK Java 7 Runtime".
+// Alternatively you can start this application also from the command line by typing:
+// java -jar P2pChatGtk.jar
+// or just:
+// scala P2pChatGtk.jar
 
 Two instances of this chat application need to run in parallel, so they can connect to each other. Running both instances on the same machine is possible, but the purpose of this application is to bridge clients located behind discrete firewalls. Possible setups to verify this functionality are: two machines in completely separate locations, or two PC's side by side, one connected via DSL or cable, the other one connected via mobile internet.
 
