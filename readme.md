@@ -23,11 +23,19 @@ To build P2pChatGtk, Scala 2.9.x and Ant must be installed. On Ubuntu 12.04 you 
 Running P2pChatGtk
 ------------------
 
-A runnable jar file is provided with the source repository. On Ubuntu 12.04 you can start the Gtk application by right clicking and selecting "Open with OpenJDK Java 6 Runtime" (or "Open with OpenJDK Java 7 Runtime"). Alternatively you can start the same application from the command line by typing "java -jar P2pChatGtk.jar" or simply "scala P2pChatGtk.jar".
+A runnable jar file is provided with the source repository. On Ubuntu 12.04 you can start the Gtk application by right clicking and selecting "Open with OpenJDK Java 6 Runtime" (or "Open with OpenJDK Java 7 Runtime"). 
 
-Two instances of the app need to be executed in parallel, so they can connect to each other. Running both instances on the same machine is possible, but the purpose of this application is to bridge clients located behind discrete firewalls. Possible setups to verify this functionality are: two machines in completely separate locations, or two PC's side by side, one connected via DSL or cable, the other one connected via mobile internet.
+Alternatively you can start this application also from the command line by typing:
 
-Two secret words must be entered to start a secure chat session. This means the two clients must agree upon the two secrets before the chat session begins. The first secret string will be used to match and connect two clients. The second secret string will be used as the OTR/SMP secret for dynamically creating encryption keys. Both clients must use the exact same secrets. As soon as a P2P connection has been established, OTR and SMP will start automatically. A few seconds later, the SMP handshake should be completed and a secure and private conversation can take place. 
+    java -jar P2pChatGtk.jar
+
+or simply:
+
+    scala P2pChatGtk.jar
+
+Two instances of this chat application need to run in parallel, so they can connect to each other. Running both instances on the same machine is possible, but the purpose of this application is to bridge clients located behind discrete firewalls. Possible setups to verify this functionality are: two machines in completely separate locations, or two PC's side by side, one connected via DSL or cable, the other one connected via mobile internet.
+
+Two secret words must be entered to start a secure chat session. This means the two clients must agree upon the two secret words before the chat session begins. The first secret word will be used to match and connect the two clients. The second secret word will be used as the OTR/SMP secret for dynamically creating encryption keys. Both clients must use the exact same secrets. As soon as a P2P connection has been established, OTR and SMP will start automatically. A few seconds later, the SMP handshake should be completed and a secure and private conversation can take place. 
 
 Shown below is a log of Alice's client instance:
 
@@ -74,7 +82,7 @@ To build the project, run:
 `make` script will work two steps:
 
 1. compile P2pChatGtk classes located in src/ using scalac
-2. create P2pChatSMPForGtk.jar by running ./makejar script
+2. create P2pChatForGtk.jar by running ./makejar script
 
 You can now run the unpackaged application:
 
