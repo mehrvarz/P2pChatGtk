@@ -13,7 +13,7 @@ You need Java6 (e.g. OpenJDK6) and the java-gnome package installed before you c
 
     apt-get install libjava-gnome-java
 
-Precompiled class files of all required classes are provided in the code repository. You can run P2pChatGtk by running the `run` script:
+Compiled class files are provided in the code repository. You can run P2pChatGtk directly by launching the `run` script:
 
     ./run
 
