@@ -5,8 +5,10 @@
 -injars lib/commons-codec-1.6.jar
 -injars lib/gtk-4.1.jar
 -injars lib/protobuf-java-2.3.0.jar
--injars /home/dave/bin/scala-2.9.2-RC3/lib/scala-library.jar
+#-injars /home/dave/bin/scala-2.9.2-RC3/lib/scala-library.jar
+-injars /usr/share/java/scala-library.jar
 #-libraryjars /home/dave/bin/scala-2.9.2-RC3/lib/scala-library.jar
+#-libraryjars /usr/share/java/scala-library.jar
 -libraryjars <java.home>/lib/rt.jar
 -libraryjars <java.home>/lib/jce.jar
 -outjars P2pChatGtk.jar
