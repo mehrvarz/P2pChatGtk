@@ -37,39 +37,9 @@ Two instances of this chat application need to run in parallel, so they can conn
 
 Two secret words must be entered to start a secure chat session. This means the two clients must agree upon the two secret words before the chat session begins. The first secret word will be used to match and connect the two clients. The second secret word will be used as the OTR/SMP secret for dynamically creating encryption keys. Both clients must use the exact same secrets. As soon as a P2P connection has been established, OTR and SMP will start automatically. A few seconds later, the SMP handshake should be completed and a secure and private conversation can take place. 
 
-Shown below is a log of Alice's client instance:
+Shown below is one client's log window:
 
-    accountname=alice.msn.com protocol=msn recipient=bob@msn.com
-    relaySocket.getLocalPort=-1 relayServer=109.74.203.226 relayPort=18771
-    receiveHandler send encrypted initialMsg='...'
-    combinedUdpAddrString this peer udpAddress=89.201.71.60:33790|192.168.1.135:33790
-    receiveMsgHandler other peer combindedUdpAddress='89.201.71.60:55130|192.168.1.135:55130'
-    datagramSendThread udpIpAddr='192.168.1.135' udpPortInt=33790 abort
-    datagramSendThread udpIpAddr='89.201.71.60' udpPortInt=55130 connected
-    From network:32:stand up
-    Injecting message to the recipient:326:?OTR:AAICAAAAxPaF08CY3FVioRfrGCgEvJ...
-    From OTR:8:stand up
-    From network:274:?OTR:AAIKAAAAwNvZMcndXAqJDvdqd/p9aWtEHKKyN...
-    From network:690:?OTR:AAIRAAAAENsQ4J2Rx8Nq...
-    New fingerprint is created.
-    Writing fingerprints.
-    Updating context list.
-    AKE succeeded
-    goneSecure -> init OMP with smpSecret=berlin
-    Injecting message to the recipient:666:?OTR:AAISAAAB0tUvh3ZcWUOHl40...
-    Injecting message to the recipient:991:?OTR,1,2,?OTR:AAIDAQAAAAEAAAABAAAAwDA...
-    Injecting message to the recipient:515:?OTR,2,2,4C7tqiIkJV//ZdC8jimctJHJhd7...
-    From network:991:?OTR,1,3,?OTR:AAIDAQAAAAEAAAACAAAAw...
-    From network:991:?OTR,2,3,fNejafJRYsoWj12DJKOEIrXgYH7qVwQHZXDZ...
-    From network:626:?OTR,3,3,TOgcciO69O/o6hFtr6nnCwSdLQJGimoi+ekQ...
-    Injecting message to the recipient:991:?OTR,1,3,?OTR:AAIDAQAAAAIAAAACAAAAwCEOW...
-    Injecting message to the recipient:991:?OTR,2,3,9oRam+5af6ZqgvkJ4UGuwYKX8ulPaJ...
-    Injecting message to the recipient:58:?OTR,3,3,1YciE3FSKuYn41KCGSHSYxT7LscjNh...
-    From OTR:0:
-    From network:942:?OTR:AAIDAQAAAAIAAAADAAAA...
-    Writing fingerprints.
-    SMP succeeded.
-    ************* SMP succeeded ***************
+<img src="P2pChatSMP/blob/master/screenshot.png" />
 
 
 Building from source
@@ -86,7 +56,7 @@ To build the project, run:
 
 You can now run the unpackaged application:
 
-    ./run timur.p2pChatSMP.P2pChatGtk Aston Martin
+    ./run timur.p2pChatSMP.P2pChatGtk
 
 To package a runnable single-file jar, run:
 

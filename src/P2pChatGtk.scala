@@ -110,7 +110,7 @@ class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
   val app = this
   val window = new Window()
   val top = new VBox(false, 3)
-  window.setTitle("SocketProxy Admin Client")
+  window.setTitle("P2pChatGtk")
   window.setDefaultSize(1040, 380)
   window.add(top)
 
