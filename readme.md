@@ -39,7 +39,7 @@ Two secret words must be entered to start a secure chat session. This means the 
 
 Shown below is one client's log window:
 
-<img src="P2pChatSMP/blob/master/screenshot.png" />
+<img src="http://mehrvarz.github.com/img/screenshotP2pChatGtk.png" />
 
 
 Building from source
