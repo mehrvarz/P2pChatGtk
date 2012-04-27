@@ -11,23 +11,17 @@ P2pChatGtk builds upon [P2pChatSMP](https://github.com/mehrvarz/P2pChatSMP) and 
 Running P2pChatGtk
 ------------------
 
-You need to have Java6 (OpenJDK6) and java-gnome installed to run P2pChatGtk. On Ubuntu 12.04 you would:
+You need Java6 (OpenJDK6) + java-gnome package installed before you can run P2pChatGtk. 
+
+On Ubuntu 12.04 you would:
 
     apt-get install libjava-gnome-java
 
-Then you can run P2pChatGtk by starting:
+Precompiled class files of all required classes are provided in the code repository. You can run P2pChatGtk by running the `run` script:
 
     ./run
 
-// A runnable jar file is provided with the source repository. On Ubuntu 12.04 
-// you can start the Gtk application by right clicking and selecting "Open 
-// with OpenJDK Java 6 Runtime" or "Open with OpenJDK Java 7 Runtime".
-// Alternatively you can start this application also from the command line by typing:
-// java -jar P2pChatGtk.jar
-// or just:
-// scala P2pChatGtk.jar
-
-Two instances of this chat application need to run in parallel, so they can connect to each other. Running both instances on the same machine is possible, but the purpose of this application is to bridge clients located behind discrete firewalls. Possible setups to verify this functionality are: two machines in completely separate locations, or two PC's side by side, one connected via DSL or cable, the other one connected via mobile internet.
+Two instances of this application need to run in parallel, so they can connect to each other. Running both instances on the same machine is possible, but the purpose of this application is to bridge clients located behind discrete firewalls. Possible setups to verify this functionality are: two machines in completely separate locations, or two PC's side by side, one connected via DSL or cable, the other one connected via mobile internet.
 
 Two secret words must be entered to start a secure chat session. This means the two clients must agree upon the two secret words before the chat session begins. The first secret word will be used to match and connect the two clients. The second secret word will be used as the OTR/SMP secret for dynamically creating encryption keys. Both clients must use the exact same secrets. As soon as a P2P connection has been established, OTR and SMP will start automatically. A few seconds later, the SMP handshake should be completed and a secure and private conversation can take place. 
 
