@@ -199,7 +199,7 @@ class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
           val tokenArrayOfStrings = outgoingTextView.getBuffer.getText split ' '
           if(tokenArrayOfStrings.length!=2) {
             // show error toast VBox
-            logUser("Please enter two words separated by one space")
+            logUser("Please enter two secret words separated by one space...")
 
           } else {
             outgoingTextView.getBuffer.setText("")
@@ -216,7 +216,7 @@ class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
               p2pChatSMP.start
               //println("p2pChatSMP finished")
               p2pChatSMP = null
-              // todo: tell user to enter two secret strings into form
+
               logUser("Please enter two secret words to start new chat session...")
             } }.start
           }

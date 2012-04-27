@@ -13,23 +13,24 @@
 -libraryjars <java.home>/lib/jce.jar
 -outjars P2pChatGtk.jar
 
--keep public class timur.p2pChatSMP.P2pChatSMPGtk {
+-keep public class timur.p2pChatSMP.P2pChatGtk {
     public static void main(java.lang.String[]);
 }
 
 -dontwarn scala.**
 -dontwarn ext.org.bouncycastle.crypto.params.**
 
--keep public class org.gnome.glib.Object {*;}
--keep public class org.gnome.gtk.TextTag
+-keep public class org.freedesktop.** {*;}
+-keep public class org.gnome.** {*;}
+-keepclassmembers class org.gnome.** { *; }
+-keepclassmembers class org.freedesktop.** { *; }
+#-keep public class org.gnome.glib.Object {*;}
+#-keep public class org.gnome.gtk.TextTag
 -keepclassmembers class org.gnome.gtk.TextTag { double SCALE; }
 -keepclassmembers class org.gnome.atk.AtkTextAttribute { int SCALE; }
 -keepclassmembers class org.gnome.pango.Pango { double SCALE; }
 -keepclassmembers class org.gnome.pango.PangoAttrType { int SCALE; }
 -keepclassmembers class org.gnome.unixprint.UnixprintPrintCapabilities { int SCALE; }
--keep public class org.freedesktop.** {*;}
--keep public class org.gnome.** {*;}
--keepclassmembers class org.gnome.** { *; }
 
 -dontobfuscate
 -dontoptimize
