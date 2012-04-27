@@ -3,7 +3,7 @@ P2pChatGtk
 
 P2pChatGtk is a secure peer-to-peer GTK chat application for clients operated behind firewalls. No XMPP or other accounts are needed to use this app. P2pChatGtk implements end-to-end encryption with [Off-the-Record Messaging](http://de.wikipedia.org/wiki/Off-the-Record_Messaging) and [Socialist Millionaire' Protocol](http://en.wikipedia.org/wiki/Socialist_millionaire).
 
-*** This project is work in progress still. We will remove this warning when it becomes usable. Thank you. ***
+*** This project is work in progress still. I will remove this warning when the app becomes ready. Thank you. ***
 
 
 Running the app
