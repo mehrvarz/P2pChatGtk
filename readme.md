@@ -8,30 +8,24 @@ P2pChatGtk is a secure peer-to-peer GTK chat application for clients operated be
 P2pChatGtk builds upon [P2pChatSMP](https://github.com/mehrvarz/P2pChatSMP) and [P2pCore](https://github.com/mehrvarz/P2pCore). The `lib` folder contains jar files build from these projects source code.
 
 
-System requirements
--------------------
-
-To run P2pChatGtk, libjava-gnome and OpenJDK 6 must be installed. On Ubuntu 12.04 you would:
-
-    apt-get install libjava-gnome-java
-
-To build P2pChatGtk, Scala 2.9.x and Ant must be installed. On Ubuntu 12.04 you would:
-
-    apt-get install scala ant
-
-
 Running P2pChatGtk
 ------------------
 
-A runnable jar file is provided with the source repository. On Ubuntu 12.04 you can start the Gtk application by right clicking and selecting "Open with OpenJDK Java 6 Runtime" (or "Open with OpenJDK Java 7 Runtime"). 
+You need to have Java6 (OpenJDK6) and java-gnome installed to run P2pChatGtk. On Ubuntu 12.04 you would:
 
-Alternatively you can start this application also from the command line by typing:
+    apt-get install libjava-gnome-java
 
-    java -jar P2pChatGtk.jar
+Then you can run P2pChatGtk by starting:
 
-or simply:
+    ./run
 
-    scala P2pChatGtk.jar
+# A runnable jar file is provided with the source repository. On Ubuntu 12.04 
+# you can start the Gtk application by right clicking and selecting "Open 
+# with OpenJDK Java 6 Runtime" or "Open with OpenJDK Java 7 Runtime".
+# Alternatively you can start this application also from the command line by typing:
+# java -jar P2pChatGtk.jar
+# or just:
+# scala P2pChatGtk.jar
 
 Two instances of this chat application need to run in parallel, so they can connect to each other. Running both instances on the same machine is possible, but the purpose of this application is to bridge clients located behind discrete firewalls. Possible setups to verify this functionality are: two machines in completely separate locations, or two PC's side by side, one connected via DSL or cable, the other one connected via mobile internet.
 
@@ -45,6 +39,10 @@ Shown below is one client's log window:
 Building from source
 --------------------
 
+You need to install Scala 2.9.x and Ant, before you can build P2pChatGtk. On Ubuntu 12.04 you would:
+
+    apt-get install scala ant
+
 To build the project, run:
 
     ./make
@@ -54,15 +52,16 @@ To build the project, run:
 1. compile P2pChatGtk classes located in src/ using scalac
 2. create P2pChatForGtk.jar by running ./makejar script
 
-You can now run the unpackaged application:
+You can then run the unpackaged application:
 
-    ./run timur.p2pChatSMP.P2pChatGtk
+    ./run
 
 To package a runnable single-file jar, run:
 
     ./makegtkjar
 
-`makegtkjar` script will run proguard to combine all used library archives to generate a single runnable `P2pChatGtk.jar`.
+`makegtkjar` script will run proguard to combine all required libraries and generate a single runnable `P2pChatGtk.jar`.
+
 
 Licenses
 --------
