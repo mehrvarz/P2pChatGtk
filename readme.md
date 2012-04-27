@@ -6,10 +6,10 @@ P2pChatGtk is a secure peer-to-peer GTK chat application for clients operated be
 *** This project is work in progress still. We will remove this warning when it becomes usable. Thank you. ***
 
 
-Running P2pChatGtk
-------------------
+Running the app
+---------------
 
-You need Java6 (OpenJDK6) and the java-gnome package installed before you can run P2pChatGtk. On Ubuntu 12.04 you would:
+You need Java6 (e.g. OpenJDK6) and the java-gnome package installed before you can run P2pChatGtk. On Ubuntu 12.04 you would install:
 
     apt-get install libjava-gnome-java
 
