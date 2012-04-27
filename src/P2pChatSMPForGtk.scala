@@ -16,9 +16,9 @@ import timur.p2pCore._
 class P2pChatSMPForGtk(p2pSecret:String, smpSecret:String, parent:timur.p2pChatSMP.LogClassTrait) 
   extends P2pChatSMP(p2pSecret:String, smpSecret:String, parent:timur.p2pChatSMP.LogClassTrait) {
 
-  // this method makes it possible to run P2pChatSMPForGtk using a runnable jar
-  // it tries to load "relaykey.pub" from inside the runnable JAR
-  // if this fails it tries to load "relaykey.pub" from the filesystem
+  // this method makes it possible to run P2pChatSMPForGtk from within a runnable jar
+  // it tries to load "relaykey.pub" from inside the JAR
+  // if this fails, it tries to load "relaykey.pub" from the filesystem
   override def initHostPubKey() {
   	val relayKeyPathInRunnableJar = "/relaykey.pub"
     val is = getClass.getResourceAsStream(relayKeyPathInRunnableJar)
@@ -33,6 +33,12 @@ class P2pChatSMPForGtk(p2pSecret:String, smpSecret:String, parent:timur.p2pChatS
     }
     if(hostPubKey.length<=0)
       log("initHostPubKey failed to read keyFile from jar or filesystem")
+  }
+
+  /** a p2p connection has just ended */
+  override def p2pExit(ret:Int) {
+    // do NOT call System.exit()
+    log("p2pExit ret="+ret)
   }
 }
 

@@ -31,13 +31,13 @@ Two secret words must be entered to start a secure chat session. This means the 
 
 Shown below is a log of Alice's client instance:
 
-    P2pChatSMP accountname=alice.msn.com protocol=msn recipient=bob@msn.com
-    P2pChatSMP relaySocket.getLocalPort=-1 relayServer=109.74.203.226 relayPort=18771
-    P2pChatSMP receiveHandler send encrypted initialMsg='...'
-    P2pChatSMP combinedUdpAddrString this peer udpAddress=89.201.71.60:33790|192.168.1.135:33790
-    P2pChatSMP receiveMsgHandler other peer combindedUdpAddress='89.201.71.60:55130|192.168.1.135:55130'
-    P2pChatSMP datagramSendThread udpIpAddr='192.168.1.135' udpPortInt=33790 abort
-    P2pChatSMP datagramSendThread udpIpAddr='89.201.71.60' udpPortInt=55130 connected
+    accountname=alice.msn.com protocol=msn recipient=bob@msn.com
+    relaySocket.getLocalPort=-1 relayServer=109.74.203.226 relayPort=18771
+    receiveHandler send encrypted initialMsg='...'
+    combinedUdpAddrString this peer udpAddress=89.201.71.60:33790|192.168.1.135:33790
+    receiveMsgHandler other peer combindedUdpAddress='89.201.71.60:55130|192.168.1.135:55130'
+    datagramSendThread udpIpAddr='192.168.1.135' udpPortInt=33790 abort
+    datagramSendThread udpIpAddr='89.201.71.60' udpPortInt=55130 connected
     From network:32:stand up
     Injecting message to the recipient:326:?OTR:AAICAAAAxPaF08CY3FVioRfrGCgEvJ...
     From OTR:8:stand up
@@ -47,7 +47,7 @@ Shown below is a log of Alice's client instance:
     Writing fingerprints.
     Updating context list.
     AKE succeeded
-    P2pChatSMP goneSecure -> init OMP with smpSecret=berlin
+    goneSecure -> init OMP with smpSecret=berlin
     Injecting message to the recipient:666:?OTR:AAISAAAB0tUvh3ZcWUOHl40...
     Injecting message to the recipient:991:?OTR,1,2,?OTR:AAIDAQAAAAEAAAABAAAAwDA...
     Injecting message to the recipient:515:?OTR,2,2,4C7tqiIkJV//ZdC8jimctJHJhd7...
@@ -61,7 +61,7 @@ Shown below is a log of Alice's client instance:
     From network:942:?OTR:AAIDAQAAAAIAAAADAAAA...
     Writing fingerprints.
     SMP succeeded.
-    P2pChatSMP ************* SMP succeeded ***************
+    ************* SMP succeeded ***************
 
 
 Building from source

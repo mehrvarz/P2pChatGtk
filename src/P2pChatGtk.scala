@@ -1,3 +1,14 @@
+/*
+ * This file is part of P2pChatGtk
+ *
+ * Copyright (C) 2012 Timur Mehrvarz, timur.mehrvarz(at)gmail.com
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation <http://www.gnu.org/licenses/>, either 
+ * version 3 of the License, or (at your option) any later version.
+ */
+
 package timur.p2pChatSMP
 
 import java.io.FileNotFoundException
@@ -95,115 +106,30 @@ object P2pChatGtk {
 }
 
 class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
-  //log("class P2pChatGtk new Window()")
+  //log("P2pChatGtk new Window()")
+  val app = this
   val window = new Window()
   val top = new VBox(false, 3)
   window.setTitle("SocketProxy Admin Client")
-  window.setDefaultSize(1020, 380)
+  window.setDefaultSize(1040, 380)
   window.add(top)
 
-  var p2pChatSMP:P2pChatSMPForGtk = null
-  var quitApp = false
-  window.connect(new Window.DeleteEvent() {
-    def onDeleteEvent(source:Widget, event:Event) :Boolean = {
-      log("class P2pChatGtk onDeleteEvent -> Gtk.mainQuit")
-      if(p2pChatSMP!=null)
-        p2pChatSMP.relayQuit
-      quitApp = true // will stop the P2pChatSMP thread loop
-      Gtk.mainQuit
-      return false
-    }
-  })
+  @volatile var p2pChatSMP:P2pChatSMPForGtk = null
 
-  val scroll1 = new ScrolledWindow()
-  scroll1.setPolicy(NEVER, ALWAYS)
-  scroll1.setShadowType(IN)
-  scroll1.add(P2pChatGtk.incomingTextView)
-
-  top.packStart(scroll1, true, true, 0)
-
-  // Create the place for the user to enter messages they want to send.
-  // The interesting part here is that when the user presses Enter in
-  // the TextView it "sends" a message and appends it to the log in the
-  // incoming TextView.
-
-  val outgoingTextView = new TextView()
-  outgoingTextView.setSizeRequest(0, 20)
-  outgoingTextView.setAcceptsTab(false)
-  outgoingTextView.setWrapMode(NONE)
-  outgoingTextView.connect(new Widget.KeyPressEvent() {
-    def onKeyPressEvent(source:Widget, event:EventKey) :Boolean = {
-      if(event.getKeyval() == Keyval.Return) {
-        // a command was entered in the GUI
-        log(outgoingTextView.getBuffer.getText)
-        // send command to server
-        if(p2pChatSMP!=null)
-          p2pChatSMP.p2pSend(outgoingTextView.getBuffer.getText)
-        outgoingTextView.getBuffer.setText("")
-        // don't process the keystroke further.
-        return true
-      }
-      return false
-    }
-  })
-
-  val scroll2 = new ScrolledWindow()
-  scroll2.setPolicy(NEVER, NEVER)
-  scroll2.setShadowType(IN)
-  scroll2.add(outgoingTextView)
-  top.packStart(scroll2, false, false, 0)
-
-  // Put the Window and all its children on screen.
-  window.showAll
-
-  // Make sure the user's text Entry has the keyboard focus. For a
-  // number of reasons, this won't work until late in the game after
-  // everything else is packed. If you try it earlier something else
-  // will end up with focus despite this call having been made.
-  outgoingTextView.grabFocus
-/*
-  try {
-    window.setIcon(new Pixbuf("res/java-gnome_Icon.png"))
-  } catch {
-    case fnfe:FileNotFoundException =>
-      System.err.println("Warning: appicon " + fnfe.getMessage)
-      window.setIcon(Gtk.renderIcon(window, Stock.MISSING_IMAGE, IconSize.BUTTON))
+  def logUser(msg:String) = synchronized {
+    P2pChatGtk.appendMessage(msg, true)
   }
-*/
-
-
-  val obj = this
-  new Thread("P2pChatSMP") { override def run() { 
-/*
-    // Mark this thread as a daemon thread
-    // else the main thread terminating after Gtk.main() returns will not end the program
-    synchronized { 
-      try { setDaemon(true) } catch { 
-        case ex:Exception => 
-          ex.printStackTrace
-      }
-    }
-*/    
-
-    while(!quitApp) {
-      val p2pSecret = "paris"
-      val smpSecret = "texas"
-      // todo: open dialog to let user enter two secret strings
-
-      // todo: fix futex_wait_queue_me / high-load issue
-
-      log("new P2pChatSMPForGtk(p2pSecret="+p2pSecret+", smpSecret="+smpSecret+")")
-      p2pChatSMP = new P2pChatSMPForGtk(p2pSecret,smpSecret,obj)
-      p2pChatSMP.start
-      println("p2pChatSMP finished")
-    }
-  } }.start
 
   /** our implementation of timur.p2pChatSMP.LogClassTrait
    *  p2pChatSMP will use this method to print into the gtk window 
    */
   def log(msg:String) = synchronized {
-    P2pChatGtk.appendMessage(msg, true)
+    if(msg.startsWith("< "))
+      logUser(msg)
+    else if(msg.startsWith("> "))
+      logUser(msg.substring(2))
+    else
+      P2pChatGtk.appendMessage(msg, false)
   }
 
 /*
@@ -235,5 +161,111 @@ class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
     try { Thread.sleep(400) } catch { case ex:Exception => }
   }
 */
+
+  window.connect(new Window.DeleteEvent() {
+    def onDeleteEvent(source:Widget, event:Event) :Boolean = {
+      // user has closed our gtk window
+      //println("P2pChatGtk onDeleteEvent -> Gtk.mainQuit")
+      //log("P2pChatGtk onDeleteEvent -> Gtk.mainQuit")
+      if(p2pChatSMP!=null)
+        p2pChatSMP.relayQuit
+      Gtk.mainQuit
+      System.exit(0)
+      return false
+    }
+  })
+
+  val scroll1 = new ScrolledWindow()
+  scroll1.setPolicy(NEVER, ALWAYS)
+  scroll1.setShadowType(IN)
+  scroll1.add(P2pChatGtk.incomingTextView)
+  top.packStart(scroll1, true, true, 0)
+
+  // Create the place for the user to enter messages they want to send.
+  // The interesting part here is that when the user presses Enter in
+  // the TextView it "sends" a message and appends it to the log in the
+  // incoming TextView.
+  val outgoingTextView = new TextView()
+  outgoingTextView.setSizeRequest(0, 20)
+  outgoingTextView.setAcceptsTab(false)
+  outgoingTextView.setWrapMode(NONE)
+  outgoingTextView.connect(new Widget.KeyPressEvent() {
+    def onKeyPressEvent(source:Widget, event:EventKey) :Boolean = {
+      if(event.getKeyval==Keyval.Return && outgoingTextView.getBuffer.getText.length>0) {
+        // user entered text in the GUI
+        if(p2pChatSMP==null) {
+          // there is currently no active chat session
+          // parse outgoingTextView.getBuffer.getText as secret strings
+          val tokenArrayOfStrings = outgoingTextView.getBuffer.getText split ' '
+          if(tokenArrayOfStrings.length!=2) {
+            // show error toast VBox
+            logUser("Please enter two words separated by one space")
+
+          } else {
+            outgoingTextView.getBuffer.setText("")
+            new Thread("P2pChatSMP") { override def run() { 
+              val p2pSecret = tokenArrayOfStrings(0)
+              val smpSecret = tokenArrayOfStrings(1)
+
+              // todo: fix futex_wait_queue_me / high-load issue
+
+              //log("new P2pChatSMPForGtk(p2pSecret="+p2pSecret+", smpSecret="+smpSecret+")")
+              logUser("starting new chat session...")
+              p2pChatSMP = new P2pChatSMPForGtk(p2pSecret,smpSecret,app)
+              //println("p2pChatSMP start")
+              p2pChatSMP.start
+              //println("p2pChatSMP finished")
+              p2pChatSMP = null
+              // todo: tell user to enter two secret strings into form
+              logUser("Please enter two secret words to start new chat session...")
+            } }.start
+          }
+
+        } else {
+          // a chat session is active
+
+          // show entered text in log window
+          //logUser(outgoingTextView.getBuffer.getText)
+
+          // send entered text to other chat client
+          //p2pChatSMP.p2pSend(outgoingTextView.getBuffer.getText)
+          p2pChatSMP.otrMsgSend(outgoingTextView.getBuffer.getText)
+
+          outgoingTextView.getBuffer.setText("")
+        }
+
+        // don't process the keystroke further.
+        return true
+      }
+      return false
+    }
+  })
+
+  val scroll2 = new ScrolledWindow()
+  scroll2.setPolicy(NEVER, NEVER)
+  scroll2.setShadowType(IN)
+  scroll2.add(outgoingTextView)
+  top.packStart(scroll2, false, false, 0)
+
+  // Put the Window and all its children on screen.
+  window.showAll
+
+  // Make sure the user's text Entry has the keyboard focus. For a
+  // number of reasons, this won't work until late in the game after
+  // everything else is packed. If you try it earlier something else
+  // will end up with focus despite this call having been made.
+  outgoingTextView.grabFocus
+/*
+  try {
+    window.setIcon(new Pixbuf("res/java-gnome_Icon.png"))
+  } catch {
+    case fnfe:FileNotFoundException =>
+      System.err.println("Warning: appicon " + fnfe.getMessage)
+      window.setIcon(Gtk.renderIcon(window, Stock.MISSING_IMAGE, IconSize.BUTTON))
+  }
+*/
+
+  // tell user to enter two secret strings into form
+  logUser("Please enter two secret words to start new chat session...")
 }
 
