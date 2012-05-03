@@ -1,5 +1,5 @@
 -injars P2pChatForGkt.jar
--injars lib/P2pChatSMP.jar
+-injars lib/P2pChatOTR.jar
 -injars lib/p2pCore.jar
 -injars lib/bcprov-jdk15on-147-ext.jar
 -injars lib/commons-codec-1.6.jar
@@ -13,7 +13,7 @@
 -libraryjars <java.home>/lib/jce.jar
 -outjars P2pChatGtk.jar
 
--keep public class timur.p2pChatSMP.P2pChatGtk {
+-keep public class timur.p2pChatOTR.P2pChatGtk {
     public static void main(java.lang.String[]);
 }
 

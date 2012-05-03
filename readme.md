@@ -56,21 +56,21 @@ To package a runnable single-file jar, run:
 Licenses
 --------
 
-- P2pChatSMP, P2pCore source code and library
+- P2pChatOTR, P2pCore source code and library
 
-  licensed under the GNU General Public [LICENSE](P2pChatSMP/blob/master/licenses/LICENSE), Version 3.
+  licensed under the GNU General Public [LICENSE](P2pChatOTR/blob/master/licenses/LICENSE), Version 3.
 
   Copyright (C) 2012 timur.mehrvarz@gmail.com
 
-  https://github.com/mehrvarz/P2pChatSMP
+  https://github.com/mehrvarz/P2pChatOTR
 
   https://github.com/mehrvarz/P2pCore
 
 - The Java Off-the-Record Messaging library
 
-  covered by the LGPL [LICENSE](P2pChatSMP/blob/master/licenses/java-otr/COPYING).
+  covered by the LGPL [LICENSE](P2pChatOTR/blob/master/licenses/java-otr/COPYING).
 
-  [java-otr README](P2pChatSMP/blob/master/licenses/java-otr/README)
+  [java-otr README](P2pChatOTR/blob/master/licenses/java-otr/README)
 
   http://www.cypherpunks.ca/otr/
   

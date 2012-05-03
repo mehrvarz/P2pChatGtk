@@ -9,14 +9,14 @@
  * version 3 of the License, or (at your option) any later version.
  */
 
-package timur.p2pChatSMP
+package timur.p2pChat
 
 import timur.p2pCore._
 
-class P2pChatSMPForGtk(p2pSecret:String, smpSecret:String, parent:timur.p2pChatSMP.LogClassTrait) 
-  extends P2pChatSMP(p2pSecret:String, smpSecret:String, parent:timur.p2pChatSMP.LogClassTrait) {
+class P2pChatOTRForGtk(p2pSecret:String, smpSecret:String, parent:timur.p2pChat.LogClassTrait) 
+  extends P2pChatOTR(p2pSecret:String, smpSecret:String, parent:timur.p2pChat.LogClassTrait) {
 
-  // this method makes it possible to run P2pChatSMPForGtk from within a runnable jar
+  // this method makes it possible to run P2pChatOTRForGtk from within a runnable jar
   // it tries to load "relaykey.pub" from inside the JAR
   // if this fails, it tries to load "relaykey.pub" from the filesystem
   override def initHostPubKey() {

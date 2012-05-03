@@ -9,7 +9,7 @@
  * version 3 of the License, or (at your option) any later version.
  */
 
-package timur.p2pChatSMP
+package timur.p2pChat
 
 import java.io.FileNotFoundException
 import java.net.Socket
@@ -105,7 +105,7 @@ object P2pChatGtk {
   }
 }
 
-class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
+class P2pChatGtk extends timur.p2pChat.LogClassTrait {
   //log("P2pChatGtk new Window()")
   val app = this
   val window = new Window()
@@ -114,14 +114,14 @@ class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
   window.setDefaultSize(1040, 380)
   window.add(top)
 
-  @volatile var p2pChatSMP:P2pChatSMPForGtk = null
+  @volatile var p2pChatOTR:P2pChatOTRForGtk = null
 
   def logUser(msg:String) = synchronized {
     P2pChatGtk.appendMessage(msg, true)
   }
 
-  /** our implementation of timur.p2pChatSMP.LogClassTrait
-   *  p2pChatSMP will use this method to print into the gtk window 
+  /** our implementation of timur.p2pChatOTR.LogClassTrait
+   *  p2pChatOTR will use this method to print into the gtk window 
    */
   def log(msg:String) = synchronized {
     if(msg.startsWith("< "))
@@ -167,8 +167,8 @@ class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
       // user has closed our gtk window
       //println("P2pChatGtk onDeleteEvent -> Gtk.mainQuit")
       //log("P2pChatGtk onDeleteEvent -> Gtk.mainQuit")
-      if(p2pChatSMP!=null)
-        p2pChatSMP.relayQuit
+      if(p2pChatOTR!=null)
+        p2pChatOTR.relayQuit
       Gtk.mainQuit
       System.exit(0)
       return false
@@ -193,7 +193,7 @@ class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
     def onKeyPressEvent(source:Widget, event:EventKey) :Boolean = {
       if(event.getKeyval==Keyval.Return && outgoingTextView.getBuffer.getText.length>0) {
         // user entered text in the GUI
-        if(p2pChatSMP==null) {
+        if(p2pChatOTR==null) {
           // there is currently no active chat session
           // parse outgoingTextView.getBuffer.getText as secret strings
           val tokenArrayOfStrings = outgoingTextView.getBuffer.getText split ' '
@@ -203,19 +203,19 @@ class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
 
           } else {
             outgoingTextView.getBuffer.setText("")
-            new Thread("P2pChatSMP") { override def run() { 
+            new Thread("P2pChatOTR") { override def run() { 
               val p2pSecret = tokenArrayOfStrings(0)
               val smpSecret = tokenArrayOfStrings(1)
 
               // todo: fix futex_wait_queue_me / high-load issue
 
-              //log("new P2pChatSMPForGtk(p2pSecret="+p2pSecret+", smpSecret="+smpSecret+")")
+              //log("new P2pChatOTRForGtk(p2pSecret="+p2pSecret+", smpSecret="+smpSecret+")")
               logUser("starting new chat session...")
-              p2pChatSMP = new P2pChatSMPForGtk(p2pSecret,smpSecret,app)
-              //println("p2pChatSMP start")
-              p2pChatSMP.start
-              //println("p2pChatSMP finished")
-              p2pChatSMP = null
+              p2pChatOTR = new P2pChatOTRForGtk(p2pSecret,smpSecret,app)
+              //println("p2pChatOTR start")
+              p2pChatOTR.start
+              //println("p2pChatOTR finished")
+              p2pChatOTR = null
 
               logUser("Please enter two secret words to start new chat session...")
             } }.start
@@ -228,8 +228,8 @@ class P2pChatGtk extends timur.p2pChatSMP.LogClassTrait {
           //logUser(outgoingTextView.getBuffer.getText)
 
           // send entered text to other chat client
-          //p2pChatSMP.p2pSend(outgoingTextView.getBuffer.getText)
-          p2pChatSMP.otrMsgSend(outgoingTextView.getBuffer.getText)
+          //p2pChatOTR.p2pSend(outgoingTextView.getBuffer.getText)
+          p2pChatOTR.otrMsgSend(outgoingTextView.getBuffer.getText)
 
           outgoingTextView.getBuffer.setText("")
         }
