@@ -13,7 +13,7 @@
 -libraryjars <java.home>/lib/jce.jar
 -outjars P2pChatGtk.jar
 
--keep public class timur.p2pChatOTR.P2pChatGtk {
+-keep public class timur.p2pChat.P2pChatGtk {
     public static void main(java.lang.String[]);
 }
 

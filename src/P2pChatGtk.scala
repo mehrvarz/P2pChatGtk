@@ -203,11 +203,9 @@ class P2pChatGtk extends timur.p2pChat.LogClassTrait {
 
           } else {
             outgoingTextView.getBuffer.setText("")
-            new Thread("P2pChatOTR") { override def run() { 
+            val p2pChatOtrThread = new Thread("P2pChatOTR") { override def run() {
               val p2pSecret = tokenArrayOfStrings(0)
               val smpSecret = tokenArrayOfStrings(1)
-
-              // todo: fix futex_wait_queue_me / high-load issue
 
               //log("new P2pChatOTRForGtk(p2pSecret="+p2pSecret+", smpSecret="+smpSecret+")")
               logUser("starting new chat session...")
@@ -218,7 +216,10 @@ class P2pChatGtk extends timur.p2pChat.LogClassTrait {
               p2pChatOTR = null
 
               logUser("Please enter two secret words to start new chat session...")
-            } }.start
+            } }
+                // todo: fix futex_wait_queue_me / high-load issue
+                p2pChatOtrThread.setDaemon(true)
+            p2pChatOtrThread.start
           }
 
         } else {

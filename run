@@ -1,5 +1,8 @@
 #!/bin/bash
 dir=`dirname "$0"`
 cd $dir
+#export TERM=xterm
+#export XAUTHORITY=/home/dave/.Xauthority
+#export COLORTERM=gnome-terminal
 java -classpath P2pChatForGkt.jar:lib/P2pChatOTR.jar:lib/p2pCore.jar:lib/bcprov-jdk15on-147-ext.jar:lib/commons-codec-1.6.jar:lib/protobuf-java-2.3.0.jar:gtk-4.1.jar:lib/gtk-4.1.jar:/home/dave/bin/scala-2.9.2-RC3/lib/scala-library.jar timur.p2pChat.P2pChatGtk
 
