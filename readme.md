@@ -102,4 +102,9 @@ Licenses
 
   http://commons.apache.org/codec/
 
+- Emoticon icon
+
+  License [CC Attribution Non-Commercial No Derivatives](http://creativecommons.org/licenses/by-nc-nd/3.0)
+
+  http://www.iconspedia.com/icon/emoticon-confuse-icon-25159.html
 

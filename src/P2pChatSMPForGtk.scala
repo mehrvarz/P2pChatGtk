@@ -16,9 +16,9 @@ import timur.p2pCore._
 class P2pChatOTRForGtk(p2pSecret:String, smpSecret:String, parent:timur.p2pChat.LogClassTrait) 
   extends P2pChatOTR(p2pSecret:String, smpSecret:String, parent:timur.p2pChat.LogClassTrait) {
 
-  // this method makes it possible to run P2pChatOTRForGtk from within a runnable jar
-  // it tries to load "relaykey.pub" from inside the JAR
-  // if this fails, it tries to load "relaykey.pub" from the filesystem
+  // here we try to load "relaykey.pub" from inside the JAR
+  // this enables us to run the app from within a runnable jar
+  // if it fails, we try to load "relaykey.pub" from the filesystem
   override def initHostPubKey() {
   	val relayKeyPathInRunnableJar = "/relaykey.pub"
     val is = getClass.getResourceAsStream(relayKeyPathInRunnableJar)
@@ -35,7 +35,7 @@ class P2pChatOTRForGtk(p2pSecret:String, smpSecret:String, parent:timur.p2pChat.
       log("initHostPubKey failed to read keyFile from jar or filesystem")
   }
 
-  /** a p2p connection has just ended */
+  /** p2p connection has just ended */
   override def p2pExit(ret:Int) {
     // do NOT call System.exit()
     log("p2pExit ret="+ret)
@@ -45,7 +45,9 @@ class P2pChatOTRForGtk(p2pSecret:String, smpSecret:String, parent:timur.p2pChat.
   override def p2pEncryptedCommunication() {
     super.p2pEncryptedCommunication
   }
+*/
 
+/*
   override def p2pReceiveHandler(str:String, host:String, port:Int) {
     // disconnect our relay connection (stay connected via direct p2p)
     //if(relaySocket!=null && !relayBasedP2pCommunication) {

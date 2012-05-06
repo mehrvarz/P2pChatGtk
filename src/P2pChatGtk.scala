@@ -52,16 +52,17 @@ object P2pChatGtk {
   var blue:TextTag = null
   var buffer:TextBuffer = null
   var incomingTextView:TextView = null
+  var p2pChatGtk:P2pChatGtk = null
   
   def main(args:Array[String]): Unit = {
     try {
       Gtk.init(args)
-      // will throw java.lang.UnsatisfiedLinkError if libjava-gnome-java is not installed
     } catch {
       case ex:java.lang.UnsatisfiedLinkError =>
-        println("failed to load java-gnome")
+        System.err.println("failed to load java-gnome")  // libjava-gnome-java is not installed
         ex.printStackTrace
         // todo: use some kind of 'toast' to display this issue
+        return
     }
 
     grey = new TextTag()
@@ -85,7 +86,7 @@ object P2pChatGtk {
     // so that as the conversation continues it won't be inaccessible off
     // the bottom of the screen.
     incomingTextView.setWrapMode(WORD)
-    new P2pChatGtk()
+    p2pChatGtk = new P2pChatGtk()
     Gtk.main
   }
 
@@ -93,14 +94,16 @@ object P2pChatGtk {
    * Append a received (or sent) message to the incoming display.
    */
   def appendMessage(msg:String, outbound:Boolean) {
-    val end = P2pChatGtk.buffer.getIterEnd
+    val end = buffer.getIterEnd
     buffer.insert(end, "\n")
-    val now = System.currentTimeMillis() / 1000
-    val timestamp = formatTime("%H:%M:%S\t", now)
-    buffer.insert(end, timestamp, grey)
-    val colour = if(outbound) blue else null
-    var prev = 0
-    P2pChatGtk.buffer.insert(end, msg.substring(prev), colour)
+    if(msg.length>0) {
+      val now = System.currentTimeMillis() / 1000
+      val timestamp = formatTime("%H:%M:%S\t", now)
+      buffer.insert(end, timestamp, grey)
+      val colour = if(outbound) blue else null
+      var prev = 0
+      buffer.insert(end, msg.substring(prev), colour)
+    }
     incomingTextView.scrollTo(end)
   }
 }
@@ -109,7 +112,9 @@ class P2pChatGtk extends timur.p2pChat.LogClassTrait {
   //log("P2pChatGtk new Window()")
   val app = this
   val window = new Window()
+  var p2pChatOtrThread:Thread = null
   val top = new VBox(false, 3)
+
   window.setTitle("P2pChatGtk")
   window.setDefaultSize(1040, 380)
   window.add(top)
@@ -170,7 +175,7 @@ class P2pChatGtk extends timur.p2pChat.LogClassTrait {
       if(p2pChatOTR!=null)
         p2pChatOTR.relayQuit
       Gtk.mainQuit
-      System.exit(0)
+      //System.exit(0)    // todo
       return false
     }
   })
@@ -197,30 +202,19 @@ class P2pChatGtk extends timur.p2pChat.LogClassTrait {
           // there is currently no active chat session
           // parse outgoingTextView.getBuffer.getText as secret strings
           val tokenArrayOfStrings = outgoingTextView.getBuffer.getText split ' '
-          if(tokenArrayOfStrings.length!=2) {
-            // show error toast VBox
-            logUser("Please enter two secret words separated by one space...")
+          outgoingTextView.getBuffer.setText("")
+          p2pChatOtrThread = new Thread("P2pChatOTR") { override def run() {
+            val p2pSecret = tokenArrayOfStrings(0)
+            val smpSecret = if(tokenArrayOfStrings.length>1) tokenArrayOfStrings(1) else null
+            log("starting new chat session...")
+            p2pChatOTR = new P2pChatOTRForGtk(p2pSecret,smpSecret,app)
+            p2pChatOTR.start
+            p2pChatOTR = null
 
-          } else {
-            outgoingTextView.getBuffer.setText("")
-            val p2pChatOtrThread = new Thread("P2pChatOTR") { override def run() {
-              val p2pSecret = tokenArrayOfStrings(0)
-              val smpSecret = tokenArrayOfStrings(1)
-
-              //log("new P2pChatOTRForGtk(p2pSecret="+p2pSecret+", smpSecret="+smpSecret+")")
-              logUser("starting new chat session...")
-              p2pChatOTR = new P2pChatOTRForGtk(p2pSecret,smpSecret,app)
-              //println("p2pChatOTR start")
-              p2pChatOTR.start
-              //println("p2pChatOTR finished")
-              p2pChatOTR = null
-
-              logUser("Please enter two secret words to start new chat session...")
-            } }
-                // todo: fix futex_wait_queue_me / high-load issue
-                p2pChatOtrThread.setDaemon(true)
-            p2pChatOtrThread.start
-          }
+            log("Please enter shared secret to start new chat session...")
+          } }
+          p2pChatOtrThread.setDaemon(true)
+          p2pChatOtrThread.start
 
         } else {
           // a chat session is active
@@ -256,17 +250,29 @@ class P2pChatGtk extends timur.p2pChat.LogClassTrait {
   // everything else is packed. If you try it earlier something else
   // will end up with focus despite this call having been made.
   outgoingTextView.grabFocus
-/*
+
   try {
-    window.setIcon(new Pixbuf("res/java-gnome_Icon.png"))
+    // todo: need to load this icon from runnable jar
+    //window.setIcon(new Pixbuf("face-smile.png"))
+    //window.setIcon(new Pixbuf("online-icon-48.png"))
+    //window.setIcon(new Pixbuf("Gnome-Stock-Person-64.png"))
+    window.setIcon(new Pixbuf("Emoticon-Confuse.png"))
+    //window.setIcon(new Pixbuf("Emoticon-Confuse-48.png"))
+
   } catch {
     case fnfe:FileNotFoundException =>
       System.err.println("Warning: appicon " + fnfe.getMessage)
       window.setIcon(Gtk.renderIcon(window, Stock.MISSING_IMAGE, IconSize.BUTTON))
   }
-*/
 
-  // tell user to enter two secret strings into form
-  logUser("Please enter two secret words to start new chat session...")
+
+  // start printing further down
+  for(i <- 0 until 20)
+    logUser("")
+
+  // tell user to enter secret word(s) into form
+  log("Please enter shared secret to start new chat session...")
+  
+  // waiting for events: onDeleteEvent + onKeyPressEvent
 }
 
