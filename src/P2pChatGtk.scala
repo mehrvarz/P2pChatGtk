@@ -169,13 +169,11 @@ class P2pChatGtk extends timur.p2pChat.LogClassTrait {
 
   window.connect(new Window.DeleteEvent() {
     def onDeleteEvent(source:Widget, event:Event) :Boolean = {
-      // user has closed our gtk window
-      //println("P2pChatGtk onDeleteEvent -> Gtk.mainQuit")
+      // user has closed gtk window
       //log("P2pChatGtk onDeleteEvent -> Gtk.mainQuit")
       if(p2pChatOTR!=null)
         p2pChatOTR.relayQuit
       Gtk.mainQuit
-      //System.exit(0)    // todo
       return false
     }
   })

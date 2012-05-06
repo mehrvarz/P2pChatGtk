@@ -3,7 +3,7 @@ P2pChatGtk
 
 P2pChatGtk is a secure peer-to-peer GTK chat application for clients operated behind firewalls. No XMPP or other accounts are needed to use this app. P2pChatGtk implements end-to-end encryption with [Off-the-Record Messaging](http://de.wikipedia.org/wiki/Off-the-Record_Messaging) and [Socialist Millionaire' Protocol](http://en.wikipedia.org/wiki/Socialist_millionaire).
 
-*** This project is work in progress still. I will remove this warning when the app becomes ready. Thank you. ***
+*** This project is work in progress. I will remove this warning when the app becomes stable. Thank you. ***
 
 
 Running the app
@@ -19,7 +19,11 @@ Compiled class files are provided in the code repository. You can run P2pChatGtk
 
 Two instances of this application need to run in parallel, so they can connect to each other. Running both instances on the same machine is possible, but the purpose of this application is to bridge clients located behind discrete firewalls. Possible setups to verify this functionality are: two machines in completely separate locations, or two PC's side by side, one connected via DSL or cable, the other one connected via mobile internet.
 
-Two secret words must be entered to start a secure chat session. This means the two clients must agree upon the two secret words before the chat session begins. The first secret word will be used to match and connect the two clients. The second secret word will be used as the OTR/SMP secret for dynamically creating encryption keys. Both clients must use the exact same secrets. As soon as a P2P connection has been established, OTR and SMP will start automatically. A few seconds later, the SMP handshake should be completed and a secure and private conversation can take place. 
+A shared secret must be entered to start a secure chat session. This means the two clients must agree upon a secret before the chat session begins. 
+
+(todo:) The first secret word will be used to match and connect the two clients. The second secret word will be used as the OTR/SMP secret for dynamically creating encryption keys. 
+
+Both clients must use the exact same secrets. As soon as a P2P connection has been established, OTR and SMP will start automatically. A few seconds later, the SMP handshake should be completed and a secure and private conversation can take place. 
 
 Shown below is one client's log window:
 

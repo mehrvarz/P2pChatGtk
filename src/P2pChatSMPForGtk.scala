@@ -37,7 +37,6 @@ class P2pChatOTRForGtk(p2pSecret:String, smpSecret:String, parent:timur.p2pChat.
 
   /** p2p connection has just ended */
   override def p2pExit(ret:Int) {
-    // do NOT call System.exit()
     log("p2pExit ret="+ret)
   }
 
